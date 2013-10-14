@@ -1,0 +1,59 @@
+﻿using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Formatting;
+using System.Web.Http;
+
+namespace RestATP
+{
+    public static class WebApiConfig
+    {
+        public static void Register(HttpConfiguration config)
+        {
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/v1/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "RoutesByCompanyApi",
+                routeTemplate: "api/v1/companies/{companyid}/routes",
+                defaults: new { controller = "depth", action = "GetRoutesByCompanyID"}
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "VehiclesByCompanyApi",
+                routeTemplate: "api/v1/companies/{companyid}/vehicles",
+                defaults: new { controller = "depth", action = "GetVehiclesByCompanyID"}
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "RoutesByStopApi",
+                routeTemplate: "api/v1/stops/{id}/routes",
+                defaults: new { controller = "depth", action = "GetRoutesByStopID" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "StopsByRouteApi",
+                routeTemplate: "api/v1/routes/{id}/stops",
+                defaults: new { controller = "depth", action = "GetStopsByRouteID" }
+            );
+
+            // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
+            // To avoid processing unexpected or malicious queries, use the validation settings on QueryableAttribute to validate incoming queries.
+            // For more information, visit http://go.microsoft.com/fwlink/?LinkId=279712.
+            //config.EnableQuerySupport();
+
+            // To disable tracing in your application, please comment out or remove the following line of code
+            // For more information, refer to: http://www.asp.net/web-api
+            config.EnableSystemDiagnosticsTracing();
+
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            //var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().FirstOrDefault();
+            //jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        }
+    }
+}

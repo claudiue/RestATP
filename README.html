@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>README</title>
+    <style type="text/css">
+        body {
+            width: 700px;
+            margin:auto; 
+        }
+
+        header {
+            color: dodgerblue;
+        }
+
+        section {
+            color: darkblue;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            border-radius: 5px 5px 5px 5px;
+            background-color: #E6E6E6;
+            padding: 10px;
+            width: 100%;
+        }
+
+        pre {
+            background-color: #424242;
+            color: #D0FA58;
+            padding: 5px;
+            border-radius: 3px 3px 3px 3px;
+        }
+        span {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <hgroup>
+            <h1>RestATP</h1>
+            <h2>Public Transport RESTful Web Service</h2>
+            <h4><a href="http://www.uaic.ro" target="_blank">Alexandru Ioan Cuza Univeristy from Iasi</a></h4>
+            <h4><a href="http://www.infoiasi.ro" target="_blank">Facutly of Computer Science</a></h4>
+            <h4>Master of Software Engineering, 1st year</h4>
+            <h4>Web Applications Development</h4>
+            <h4>Homework project no 2</h4>
+            <h4>Created by Claudiu Epure</h4>
+        </hgroup>
+    </header>
+
+    <article>
+        <section>
+            This project's goal is the implementation of a REST WEB Service for the public transport in Iasi.
+        </section>
+        <section>
+            Collections:
+            <ul>
+                <li>Companies</li>
+                <li>Routes</li>
+                <li>Stops</li>
+                <li>Vehicles</li>
+            </ul>
+            <span>Companies, Routes and Stops support only GET (both on collection and on individual items).
+            These can be considered extensions for this project.</span> 
+        </section>
+        <section>
+            The collection on which the REST principles are implemented is Vehicles:
+            <ul>
+                <li>Data is represented by resources</li>
+                <li>Http verbs (GET, POST, PUT, DELETE) for actions</li>
+                <li>Hypermedia driven (HATEOAS)</li>
+            </ul>
+        </section>
+        <section>
+            <h4>Example of using this service on Vehicles collection</h4> <br/>
+            Request:<br/>
+            <pre>GET ~/api/v1/vehicles</pre><br />
+            Response:<br/>
+            <pre>
+HTTP/1.1 200 OK
+{
+    "Content": [
+        {
+            "Content": {
+                "CompanyID": 1,
+                "Description": null,
+                "Make": "Mercedes",
+                "Type": "Bus",
+                "VehicleID": "IS-01-RTP"
+            },
+            "URI": "http://localhost:12566/api/v1/vehicles/IS-01-RTP"
+        },
+        {
+            "Content": {
+                "CompanyID": 1,
+                "Description": null,
+                "Make": "Tatra",
+                "Type": "Tram",
+                "VehicleID": "IS-1245"
+            },
+            "URI": "http://localhost:12566/api/v1/vehicles/IS-1245"
+        }
+    ],
+    "URI": "http://localhost:12566/api/v1/vehicles"
+}
+            </pre> <br />
+
+
+            Request:<br/>
+            <pre>GET ~/api/v1/vehicles/IS-01-RTP</pre><br />
+            Response:<br/>
+            <pre>
+HTTP/1.1 200 OK
+{
+    "Content": {
+        "CompanyID": 1,
+        "Description": null,
+        "Make": "Mercedes",
+        "Type": "Bus",
+        "VehicleID": "IS-01-RTP"
+    },
+    "URI": "http://localhost:12566/api/v1/vehicles/IS-01-RTP"
+}
+            </pre> <br />
+            Request:<br/>
+            <pre>
+POST ~/api/v1/vehicles
+body:
+{
+    "VehicleID": "IS-01-ABC",
+    "CompanyID": 1,
+    "Description": "Sprinter",
+    "Make": "Mercedes",
+    "Type": "Minibus"
+}
+            </pre><br />
+            Response:<br/>
+            <pre>
+HTTP/1.1 201 Created
+{
+    "URI": "http://localhost:12566/api/v1/vehicles/IS-01-ABC",
+    "Content": {
+        "VehicleID": "IS-01-ABC",
+        "Type": "Minibus",
+        "Make": "Mercedes",
+        "Description": "Sprinter",
+        "CompanyID": 1
+    }
+}
+            </pre> <br />
+            Request:<br/>
+            <pre>
+PUT ~/api/v1/vehicles/IS-01-ABC
+body:
+{
+    "CompanyID": 1,
+    "Description": "Daily",
+    "Make": "Iveco",
+    "Type": "Minibus"
+}
+            </pre><br />
+            Response:<br/>
+            <pre>
+HTTP/1.1 200 OK
+            </pre> <br />
+            Request:<br/>
+            <pre>
+DELETE ~/api/v1/vehicles/IS-01-ABC
+            </pre><br />
+            Response:<br/>
+            <pre>
+HTTP/1.1 204 No Content
+            </pre> <br />
+            
+        </section>
+    </article>
+</body>
+</html>
